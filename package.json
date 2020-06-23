@@ -1,0 +1,26 @@
+{
+  "name": "oex-web3",
+  "version": "1.0.0",
+  "description": "Oexchain Web3 JS API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OEXPlatform/oexweb3j.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/OEXPlatform/oexweb3j/issues"
+  },
+  "homepage": "https://github.com/OEXPlatform/oexweb3j#readme",
+  "dependencies": {
+    "eth-crypto": "^1.3.3",
+    "ethereumjs-abi": "^0.6.7",
+    "ethereumjs-util": "^6.1.0",
+    "rlp": "^2.2.3"
+  }
+}
