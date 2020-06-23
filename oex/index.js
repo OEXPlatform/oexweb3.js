@@ -17,7 +17,7 @@ export function setChainId(newChainId) {
 
 export async function getCurrentBlock(bFullTx) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
-    method: 'oex_getCurrentBlock',
+    method: 'oex_getCurrentBlockWithPayer',
     params: [bFullTx],
     id: 1 });
   return utils.postToNode({ data: dataToSrv, });
@@ -25,7 +25,7 @@ export async function getCurrentBlock(bFullTx) {
 
 export async function getBlockByHash(blockHash, bFullTx) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
-    method: 'oex_getBlockByHash',
+    method: 'oex_getBlockByHashWithPayer',
     params: [blockHash, bFullTx],
     id: 1 });
   return utils.postToNode({
@@ -35,7 +35,7 @@ export async function getBlockByHash(blockHash, bFullTx) {
 
 export async function getBlockByNum(blockNum, bFullTx) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
-    method: 'oex_getBlockByNumber',
+    method: 'oex_getBlockByNumberWithPayer',
     params: [blockNum, bFullTx],
     id: 1 });
   return utils.postToNode({
@@ -45,7 +45,7 @@ export async function getBlockByNum(blockNum, bFullTx) {
 
 export async function getTransactionByHash(blockHash) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
-    method: 'oex_getTransactionByHash',
+    method: 'oex_getTransactionByHashWithPayer',
     params: [blockHash],
     id: 1 });
   return utils.postToNode({
@@ -55,7 +55,7 @@ export async function getTransactionByHash(blockHash) {
 
 export async function getTransactionReceipt(txHash) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
-    method: 'oex_getTransactionReceipt',
+    method: 'oex_getTransactionReceiptWithPayer',
     params: [txHash],
     id: 1 });
   return utils.postToNode({
