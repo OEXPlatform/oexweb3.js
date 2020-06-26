@@ -30,6 +30,16 @@ export async function getAssetInfoByName(assetName) {
   });
 }
 
+export async function getAccountNumber() {
+  const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
+    method: 'account_getAccountNumber',
+    params: [],
+    id: 1 });
+  return utils.postToNode({
+    data: dataToSrv,
+  });
+}
+
 export async function getAccountByName(accountName) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
     method: 'account_getAccountByName',
@@ -140,5 +150,5 @@ export async function getSnapshotByTime(whichOne, time) {
   });
 }
 
-export default { getNonce, getAssetInfoById, getAssetInfoByName, getAccountByName, getAccountById, getAccountExByName, getAccountExById, isAccountExist, getAccountBalanceById,
+export default { getNonce, getAssetInfoById, getAssetInfoByName, getAccountNumber, getAccountByName, getAccountById, getAccountExByName, getAccountExById, isAccountExist, getAccountBalanceById,
   getCode, getAccountBalanceByTime };
