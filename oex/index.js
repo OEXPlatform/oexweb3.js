@@ -5,6 +5,7 @@ import * as utils from '../utils';
 import * as account from '../account';
 
 let chainId = 1;
+export let chainConfig = null;
 
 export function getChainId() {
   return chainId;
@@ -122,14 +123,18 @@ export async function getInternalTxByHash(txHash) {
   });
 }
 
-export async function getChainConfig() {
+export async function getChainConfig(bForce) {
+  if (!bForce && chainConfig != null) {
+    return chainConfig;
+  }
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
     method: 'oex_getChainConfig',
     params: [],
     id: 1 });
-  return utils.postToNode({
+  chainConfig = await utils.postToNode({
     data: dataToSrv,
   });
+  return chainConfig;
 }
 
 //{"actionType":0,"from":"testtest31","to":"testtest32",
@@ -173,9 +178,7 @@ export async function packTx(txInfo) {
     txInfo.chainId = chainId;
   }
   if (utils.isEmptyObj(txInfo.gasAssetId)) {
-    const chainConfig = await getChainConfig();
-    const assetInfo = await account.getAssetInfoByName(chainConfig.systemToken);
-    txInfo.gasAssetId = assetInfo.assetId == null ? 0 : assetInfo.assetId;
+    txInfo.gasAssetId = chainConfig.sysTokenID;
   }
   for (let i = 0; i < txInfo.actions.length; i++) {
     let action = txInfo.actions[i];
