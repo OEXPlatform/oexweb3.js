@@ -13,6 +13,7 @@ export const DESTORY_ASSET = 0x202;
 export const SET_ASSET_OWNER = 0x203;
 export const UPDATE_ASSET_FOUNDER = 0x204;
 export const TRANSFER = 0x205;
+export const UPDATE_ASSET_CONTRACT = 0x206;
 
 export const REG_CANDIDATE = 0x300;
 export const UPDATE_CANDIDATE_URL = 0x301;
@@ -23,5 +24,6 @@ export const UPDATE_CANDIDATE_PUBLICKEY = 0x305;
 
 export const KICKED_CANDIDATE = 0x400;
 export const EXIT_TAKEOVER = 0x401;
+export const REMOVE_KICKED_CANDIDATE = 0x402;
 
 export const WITHDRAW_FEE = 0x500;

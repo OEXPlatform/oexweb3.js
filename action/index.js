@@ -5,15 +5,6 @@ import * as dpos from '../dpos';
 import { encode } from 'rlp';
 import * as actionTypes from './actionTypes';
 
-const accountReg = new RegExp('^[a-z0-9]{7,16}(\\.[a-z0-9]{1,8}){0,1}$');
-
-
-/**
- txInfo = {gasAssetId, gasPrice, actions:[{actionType, accountName, nonce, gasLimit, toAccountName, assetId, amount, payloadRawInfo, remark}]}
- payloadRawInfo is the original, NOT the encoded info, for example, when create account, payloadRawInfo should be {accountName:'...', founder:'...', publicKey:'...', description: '...'}
-*/
-
-
 /** 
  * contractAccountName
  * payloadInfo = {funcName, types, values}
