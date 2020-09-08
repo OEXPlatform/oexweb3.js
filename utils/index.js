@@ -2,6 +2,11 @@ import * as abiUtil from 'ethereumjs-abi';
 import * as oex from '../oex'
 let provider = 'http://127.0.0.1:8545';
 let wsToNode = null;
+let app = null;
+
+export function setApp() {
+  app = true;
+}
 
 export function setProvider(providerInfo) {
   provider = providerInfo;
@@ -32,6 +37,7 @@ export function getRlpData(data) {
 }
 
 export async function postToNode(dataToNode) {
+  if (app) return dataToNode.data;
   const resp = await fetch(provider, {headers: { "Content-Type": "application/json" }, method: 'POST', body: dataToNode.data});
   if (resp == null) {
     throw 'RPC调用失败：' + dataToNode.data;
