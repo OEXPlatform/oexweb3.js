@@ -6,5 +6,7 @@ import * as p2p from './p2p';
 import * as txpool from './txpool';
 import * as utils from './utils';
 import * as fee from './fee';
+import * as action from './action';
 
-export { account, dpos, oex, miner, p2p, txpool, utils, fee };
+
+export { account, dpos, oex, miner, p2p, txpool, utils, fee, action };

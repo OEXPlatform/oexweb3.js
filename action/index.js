@@ -52,8 +52,41 @@ export async function executeContract(actionInfo, gasInfo, payloadInfo, privateK
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
+}
+
+/** 
+* actionInfo = {accountName, toAccountName, assetId, amount, remark, nonce}
+   > nonce: if not null, will be used in txInfo
+* gasInfo = {gasPrice, gasLimit}
+* payloadInfo = {funcName, types, values, assetInfos: [{assetId1, value1}, {assetId2, value2}]}
+* privateKey
+**/
+export async function executeContractWithMultiAsset(actionInfo, gasInfo, payloadInfo, privateKey) {
+    const methodPayload = '0x' + utils.getContractPayload(payloadInfo.funcName, payloadInfo.types, payloadInfo.values);
+
+    const payload = '0x' + encode([...payloadInfo.assetInfos, methodPayload]).toString('hex');
+
+    const txInfo = {
+        gasAssetId: oex.chainConfig.sysTokenID,
+        gasPrice: gasInfo.gasPrice,
+        actions: [
+            {
+                actionType: actionTypes.CALL_CONTRACT_MULTIASSET,
+                accountName: actionInfo.accountName,
+                nonce: actionInfo.nonce != null ? actionInfo.nonce : null,
+                gasLimit: gasInfo.gasLimit,
+                toAccountName: actionInfo.toAccountName,
+                assetId: actionInfo.assetId,
+                amount: '0x' + actionInfo.amount.toString(16),
+                payload,
+                remark: actionInfo.remark,
+            }
+        ]
+    }
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -82,8 +115,8 @@ export async function deployContract(actionInfo, gasInfo, payloadInfo, privateKe
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -112,8 +145,8 @@ export async function createAccount(actionInfo, gasInfo, payloadInfo, privateKey
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -142,8 +175,8 @@ export async function updateAccountFounder(actionInfo, gasInfo, payloadInfo, pri
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -172,8 +205,8 @@ export async function updateAccountDesc(actionInfo, gasInfo, payloadInfo, privat
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 
@@ -203,8 +236,8 @@ export async function updateAccountAuthor(actionInfo, gasInfo, payloadInfo, priv
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -219,7 +252,9 @@ export async function issueAsset(actionInfo, gasInfo, payloadInfo, privateKey) {
     const payload = '0x' + encode([payloadInfo.assetName, payloadInfo.symbol, '0x' + payloadInfo.amount.shiftedBy(payloadInfo.decimals).toString(16),
                                    payloadInfo.decimals, payloadInfo.founder, payloadInfo.owner, '0x' + payloadInfo.upperLimit.shiftedBy(payloadInfo.decimals).toString(16), 
                                    payloadInfo.contractAccountName, payloadInfo.desc]).toString('hex');
-    const txInfo = {
+    
+    console.log(oex.chainConfig)
+		const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
         actions: [
@@ -236,8 +271,9 @@ export async function issueAsset(actionInfo, gasInfo, payloadInfo, privateKey) {
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+		console.log(txInfo)
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -266,8 +302,8 @@ export async function increaseAsset(actionInfo, gasInfo, payloadInfo, privateKey
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 
@@ -299,8 +335,8 @@ export async function destoryAsset(actionInfo, gasInfo, payloadInfo, privateKey)
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 
@@ -332,8 +368,8 @@ export async function setAssetOwner(actionInfo, gasInfo, payloadInfo, privateKey
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -364,8 +400,8 @@ export async function updateAssetFounder(actionInfo, gasInfo, payloadInfo, priva
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 
@@ -394,8 +430,8 @@ export async function transfer(actionInfo, gasInfo, privateKey) {
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 
@@ -408,7 +444,7 @@ export async function transfer(actionInfo, gasInfo, privateKey) {
 **/
 export async function registerCandidate(actionInfo, gasInfo, payloadInfo, privateKey) {
     const payload = '0x' + encode([payloadInfo.url]).toString('hex');
-    const amount = '0x' + new BigNumber(500000).shiftedBy(oex.chainConfig.sysTokenDecimal).toString(16);
+    const amount = '0x' + new BigNumber(oex.chainConfig.dposParams.candidateMinQuantity).shiftedBy(oex.chainConfig.sysTokenDecimal).toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -426,8 +462,8 @@ export async function registerCandidate(actionInfo, gasInfo, payloadInfo, privat
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -456,8 +492,8 @@ export async function updateCandidate(actionInfo, gasInfo, payloadInfo, privateK
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -466,7 +502,7 @@ export async function updateCandidate(actionInfo, gasInfo, payloadInfo, privateK
 * gasInfo = {gasPrice, gasLimit}
 * privateKey
 **/
-export async function updateCandidate(actionInfo, gasInfo, privateKey) {
+export async function unRegCandidate(actionInfo, gasInfo, privateKey) {
     const payload = '';
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
@@ -485,8 +521,8 @@ export async function updateCandidate(actionInfo, gasInfo, privateKey) {
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 /** 
@@ -497,8 +533,7 @@ export async function updateCandidate(actionInfo, gasInfo, privateKey) {
 * privateKey
 **/
 export async function voteCandidate(actionInfo, gasInfo, payloadInfo, privateKey) {
-    const dposInfo = await dpos.getDposInfo();
-    const stake = '0x' + new BigNumber(payloadInfo.stake).shiftedBy(oex.chainConfig.sysTokenDecimal).multipliedBy(new BigNumber(dposInfo.unitStake)).toString(16);
+    const stake = '0x' + new BigNumber(payloadInfo.stake).shiftedBy(oex.chainConfig.sysTokenDecimal).multipliedBy(new BigNumber(oex.chainConfig.dposParams.unitStake)).toString(16);
     const payload = '0x' + encode([payloadInfo.candidate, stake]).toString('hex');
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
@@ -517,8 +552,8 @@ export async function voteCandidate(actionInfo, gasInfo, payloadInfo, privateKey
             }
         ]
     }
-    const signInfo = oex.signTx(txInfo, privateKey);
-    return oex.sendSeniorSigTransaction(txInfo, signInfo);
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
 

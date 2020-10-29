@@ -1,5 +1,6 @@
 export const CALL_CONTRACT = 0x00;
 export const CREATE_CONTRACT = 0x01;
+export const CALL_CONTRACT_MULTIASSET = 0x02;
 
 export const CREATE_NEW_ACCOUNT = 0x100;
 export const UPDATE_ACCOUNT_FOUNDER = 0x101;

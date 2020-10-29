@@ -15,7 +15,6 @@ export function setChainId(newChainId) {
   chainId = newChainId;
 }
 
-
 export async function getCurrentBlock(bFullTx) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
     method: 'oex_getCurrentBlockWithPayer',
@@ -135,6 +134,10 @@ export async function getChainConfig(bForce) {
     data: dataToSrv,
   });
   return chainConfig;
+}
+
+export async function setChainConfig(chainConfigInfo) {
+  chainConfig = chainConfigInfo;
 }
 
 //{"actionType":0,"from":"testtest31","to":"testtest32",
@@ -274,6 +277,6 @@ export async function sendSeniorSigTransaction(txInfo, multiSignInfos, parentInd
 
 export default { getChainId, setChainId, getCurrentBlock, getBlockByHash, getBlockByNum, getTransactionByHash,
   getTransactionReceipt, getSuggestionGasPrice,
-  getTxsByAccount, getTxsByBloom, getChainConfig,
+  getTxsByAccount, getTxsByBloom, getChainConfig, setChainConfig,
   getInternalTxsByAccount, getInternalTxsByBloom, getInternalTxByHash, packTx,
   signTx, recoverSignedTx, sendSingleSigTransaction, sendSeniorSigTransaction, call, estimateGas};

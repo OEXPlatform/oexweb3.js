@@ -10,9 +10,11 @@ export function setApp() {
 
 export function setProvider(providerInfo) {
   provider = providerInfo;
-  oex.getChainConfig().then(chainConfig => {
-    oex.setChainId(chainConfig.chainId);
-  });
+  if (!app) {
+    oex.getChainConfig().then(chainConfig => {
+      oex.setChainId(chainConfig.chainId);
+    });
+  }
 }
 
 export function openWebSocket(wsAddr) {
@@ -141,7 +143,7 @@ export function parseContractTxPayload(abiInfo, payload) {
 }
 
 export function isEmptyObj(obj) {
-  return obj == null || obj == '';
+  return typeof obj != 'number' && (obj === undefined || obj == '');
 }
 
 export default { isEmptyObj, hex2Bytes, postToNode, getRlpData, setProvider, getContractPayload, 

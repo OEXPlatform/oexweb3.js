@@ -15,6 +15,7 @@ import * as oex from 'oex-web3';
 - oex.p2p.*: 包括增加、删除节点等功能
 - oex.txpool.*: 包括获取txpool信息以及设置gas price等功能
 - oex.utils.*: 包括rlp编码、合约payload编码等功能
+- oex.action.*: 包括发送各种交易的接口
 > rpc文档：https://github.com/oexplatform/oexchain/wiki/JSON-RPC
 
 demo1：设置节点信息、查看账户信息
