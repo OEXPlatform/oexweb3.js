@@ -249,8 +249,11 @@ export async function updateAccountAuthor(actionInfo, gasInfo, payloadInfo, priv
 * privateKey
 **/
 export async function issueAsset(actionInfo, gasInfo, payloadInfo, privateKey) {
-    const payload = '0x' + encode([payloadInfo.assetName, payloadInfo.symbol, '0x' + payloadInfo.amount.shiftedBy(payloadInfo.decimals).toString(16),
-                                   payloadInfo.decimals, payloadInfo.founder, payloadInfo.owner, '0x' + payloadInfo.upperLimit.shiftedBy(payloadInfo.decimals).toString(16), 
+    const amount = (payloadInfo.amount.toNumber() == 0) ? 0 : ('0x' + payloadInfo.amount.shiftedBy(payloadInfo.decimals).toString(16));
+    const upperLimit = (payloadInfo.upperLimit.toNumber() == 0) ? 0 : ('0x' + payloadInfo.upperLimit.shiftedBy(payloadInfo.decimals).toString(16));
+
+    const payload = '0x' + encode([payloadInfo.assetName, payloadInfo.symbol, amount,
+                                   payloadInfo.decimals, payloadInfo.founder, payloadInfo.owner, upperLimit, 
                                    payloadInfo.contractAccountName, payloadInfo.desc]).toString('hex');
     
     console.log(oex.chainConfig)
