@@ -6,16 +6,17 @@ import { encode } from 'rlp';
 import * as actionTypes from './actionTypes';
 
 /** 
+ * fromAccount
  * contractAccountName
  * payloadInfo = {funcName, types, values}
  * blockNum
 **/
-export async function readContract(contractAccountName, payloadInfo, blockNum) {
+export async function readContract(fromAccount, contractAccountName, payloadInfo, blockNum) {
     const payload = '0x' + utils.getContractPayload(payloadInfo.funcName, payloadInfo.types, payloadInfo.values);
     const callInfo = {
         gasPrice: 10000000000,
         actionType: 0,
-        from: oex.chainConfig.systemName,
+        from: fromAccount,
         gasLimit: 200000000,
         toAccountName: contractAccountName,
         assetId: oex.chainConfig.sysTokenID,
