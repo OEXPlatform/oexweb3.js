@@ -60,13 +60,13 @@ export async function executeContract(actionInfo, gasInfo, payloadInfo, privateK
 * actionInfo = {accountName, toAccountName, assetId, amount, remark, nonce}
    > nonce: if not null, will be used in txInfo
 * gasInfo = {gasPrice, gasLimit}
-* payloadInfo = {funcName, types, values, assetInfos: [{assetId1, value1}, {assetId2, value2}]}
+* payloadInfo = {funcName, types, values, assetInfos: [[assetId1, value1], [assetId2, value2]]}   // assetInfos.push([assetId1, value1])
 * privateKey
 **/
 export async function executeContractWithMultiAsset(actionInfo, gasInfo, payloadInfo, privateKey) {
     const methodPayload = '0x' + utils.getContractPayload(payloadInfo.funcName, payloadInfo.types, payloadInfo.values);
 
-    const payload = '0x' + encode([...payloadInfo.assetInfos, methodPayload]).toString('hex');
+    const payload = '0x' + encode([[...payloadInfo.assetInfos], methodPayload]).toString('hex');
 
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,

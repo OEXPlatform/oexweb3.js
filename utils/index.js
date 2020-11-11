@@ -8,10 +8,10 @@ export function setApp() {
   app = true;
 }
 
-export function setProvider(providerInfo) {
+export async function setProvider(providerInfo) {
   provider = providerInfo;
   if (!app) {
-    oex.getChainConfig().then(chainConfig => {
+    return oex.getChainConfig().then(chainConfig => {
       oex.setChainId(chainConfig.chainId);
     });
   }
