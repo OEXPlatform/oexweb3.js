@@ -24,7 +24,7 @@ export async function readContract(fromAccount, contractAccountName, payloadInfo
         payload,
         remark: '',
     }
-    return oex.call(txInfo, blockNum);
+    return oex.call(callInfo, blockNum);
 }
 
 /** 

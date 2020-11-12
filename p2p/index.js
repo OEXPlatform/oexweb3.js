@@ -41,7 +41,7 @@ export async function removeTrustedPeer(url) {
   });
 }
 
-export async function selfNode() {
+export async function selfNode(url) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
     method: 'p2p_selfNode',
     params: [url],
