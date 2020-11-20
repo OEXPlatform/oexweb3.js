@@ -22,6 +22,7 @@ export const UNREG_CANDIDATE = 0x302;
 export const REFUND_CANDIDATE = 0x303;
 export const VOTE_CANDIDATE = 0x304;
 export const UPDATE_CANDIDATE_PUBLICKEY = 0x305;
+export const WITHDRAW_CANDIDATE = 0x306;
 
 export const KICKED_CANDIDATE = 0x400;
 export const EXIT_TAKEOVER = 0x401;

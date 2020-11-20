@@ -560,4 +560,31 @@ export async function voteCandidate(actionInfo, gasInfo, payloadInfo, privateKey
     return oex.sendSingleSigTransaction(txInfo, signInfo);
 }
 
-
+/** 
+* actionInfo = {accountName, remark, nonce}
+   > nonce: if not null, will be used in txInfo
+* gasInfo = {gasPrice, gasLimit}
+* privateKey
+**/
+export async function withdrawCandidate(actionInfo, gasInfo, privateKey) {
+    const payload = '';
+    const txInfo = {
+        gasAssetId: oex.chainConfig.sysTokenID,
+        gasPrice: gasInfo.gasPrice,
+        actions: [
+            {
+                actionType: actionTypes.WITHDRAW_CANDIDATE,
+                accountName: actionInfo.accountName,
+                nonce: actionInfo.nonce != null ? actionInfo.nonce : null,
+                gasLimit: gasInfo.gasLimit,
+                toAccountName: oex.chainConfig.dposName,
+                assetId: oex.chainConfig.sysTokenID,
+                amount: 0,
+                payload,
+                remark: actionInfo.remark,
+            }
+        ]
+    }
+    const signInfo = await oex.signTx(txInfo, privateKey);
+    return oex.sendSingleSigTransaction(txInfo, signInfo);
+}

@@ -90,6 +90,16 @@ export async function getAvailableStake(epoch, accountName) {
   });
 }
 
+export async function getSnapShotStake(epoch, accountName) {
+  const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
+    method: 'dpos_snapShotStake',
+    params: [epoch, accountName],
+    id: 1 });
+  return utils.postToNode({
+    data: dataToSrv,
+  });
+}
+
 // get all voters info who vote to the candidate
 export async function getVotersByCandidate(epoch, candidateName, bDetailInfo) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
@@ -100,6 +110,17 @@ export async function getVotersByCandidate(epoch, candidateName, bDetailInfo) {
     data: dataToSrv,
   });
 }
+
+export async function getCandidateWithdrawed(candidateName) {
+  const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
+    method: 'dpos_candidateWithdrawed',
+    params: [candidateName],
+    id: 1 });
+  return utils.postToNode({
+    data: dataToSrv,
+  });
+}
+
 // get voter's all vote info
 export async function getVotersByVoter(epoch, voterName, bDetailInfo) {
   const dataToSrv = JSON.stringify({ jsonrpc: '2.0',
@@ -163,7 +184,7 @@ export async function getNextEpoch(epoch) {
 }
 
 export default { getCandidate, getDposIrreversibleInfo, getCandidates, getCandidateNumber,
-  getVotersByCandidate, getVotersByVoter, getAvailableStake, getValidCandidates, 
-  getDposInfo, getNextValidCandidates, getSnapShotTime,  getEpochByHeight, getPreEpoch, getNextEpoch, 
+  getVotersByCandidate, getVotersByVoter, getAvailableStake, getValidCandidates, getCandidateWithdrawed,
+  getDposInfo, getNextValidCandidates, getSnapShotTime, getSnapShotStake, getEpochByHeight, getPreEpoch, getNextEpoch, 
   getActivedCandidate, getActivedCandidateNumber,
 };
