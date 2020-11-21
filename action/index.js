@@ -36,6 +36,7 @@ export async function readContract(fromAccount, contractAccountName, payloadInfo
 **/
 export async function executeContract(actionInfo, gasInfo, payloadInfo, privateKey) {
     const payload = '0x' + utils.getContractPayload(payloadInfo.funcName, payloadInfo.types, payloadInfo.values);
+    const amount = (actionInfo.amount.toNumber() == 0) ? 0 : '0x' + actionInfo.amount.toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -47,7 +48,7 @@ export async function executeContract(actionInfo, gasInfo, payloadInfo, privateK
                 gasLimit: gasInfo.gasLimit,
                 toAccountName: actionInfo.toAccountName,
                 assetId: actionInfo.assetId,
-                amount: '0x' + actionInfo.amount.toString(16),
+                amount,
                 payload,
                 remark: actionInfo.remark,
             }
@@ -69,6 +70,7 @@ export async function executeContractWithMultiAsset(actionInfo, gasInfo, payload
 
     const payload = '0x' + encode([[...payloadInfo.assetInfos], methodPayload]).toString('hex');
 
+    const amount = (actionInfo.amount.toNumber() == 0) ? 0 : '0x' + actionInfo.amount.toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -80,7 +82,7 @@ export async function executeContractWithMultiAsset(actionInfo, gasInfo, payload
                 gasLimit: gasInfo.gasLimit,
                 toAccountName: actionInfo.toAccountName,
                 assetId: actionInfo.assetId,
-                amount: '0x' + actionInfo.amount.toString(16),
+                amount,
                 payload,
                 remark: actionInfo.remark,
             }
@@ -99,6 +101,7 @@ export async function executeContractWithMultiAsset(actionInfo, gasInfo, payload
 **/
 export async function deployContract(actionInfo, gasInfo, payloadInfo, privateKey) {
     const payload = '0x' + payloadInfo.code;
+    const amount = (actionInfo.amount.toNumber() == 0) ? 0 : '0x' + actionInfo.amount.toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -110,7 +113,7 @@ export async function deployContract(actionInfo, gasInfo, payloadInfo, privateKe
                 gasLimit: gasInfo.gasLimit,
                 toAccountName: actionInfo.contractAccountName,
                 assetId: actionInfo.assetId,
-                amount: '0x' + actionInfo.amount.toString(16),
+                amount,
                 payload,
                 remark: actionInfo.remark,
             }
@@ -129,6 +132,7 @@ export async function deployContract(actionInfo, gasInfo, payloadInfo, privateKe
 **/
 export async function createAccount(actionInfo, gasInfo, payloadInfo, privateKey) {
     const payload = '0x' + encode([payloadInfo.newAccountName, payloadInfo.creatorAccountName, payloadInfo.publicKey, payloadInfo.desc]).toString('hex');
+    const amount = (actionInfo.amount.toNumber() == 0) ? 0 : '0x' + actionInfo.amount.toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -140,7 +144,7 @@ export async function createAccount(actionInfo, gasInfo, payloadInfo, privateKey
                 gasLimit: gasInfo.gasLimit,
                 toAccountName: oex.chainConfig.accountName,
                 assetId: actionInfo.assetId,
-                amount: '0x' + actionInfo.amount.toString(16),
+                amount,
                 payload,
                 remark: actionInfo.remark,
             }
@@ -159,6 +163,7 @@ export async function createAccount(actionInfo, gasInfo, payloadInfo, privateKey
 **/
 export async function updateAccountFounder(actionInfo, gasInfo, payloadInfo, privateKey) {
     const payload = '0x' + encode([payloadInfo.founder]).toString('hex');
+    const amount = (actionInfo.amount.toNumber() == 0) ? 0 : '0x' + actionInfo.amount.toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -170,7 +175,7 @@ export async function updateAccountFounder(actionInfo, gasInfo, payloadInfo, pri
                 gasLimit: gasInfo.gasLimit,
                 toAccountName: oex.chainConfig.accountName,
                 assetId: actionInfo.assetId,
-                amount: '0x' + actionInfo.amount.toString(16),
+                amount,
                 payload,
                 remark: actionInfo.remark,
             }
@@ -189,6 +194,7 @@ export async function updateAccountFounder(actionInfo, gasInfo, payloadInfo, pri
 **/
 export async function updateAccountDesc(actionInfo, gasInfo, payloadInfo, privateKey) {
     const payload = '0x' + encode([payloadInfo.desc]).toString('hex');
+    const amount = (actionInfo.amount.toNumber() == 0) ? 0 : '0x' + actionInfo.amount.toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -200,7 +206,7 @@ export async function updateAccountDesc(actionInfo, gasInfo, payloadInfo, privat
                 gasLimit: gasInfo.gasLimit,
                 toAccountName: oex.chainConfig.accountName,
                 assetId: actionInfo.assetId,
-                amount: '0x' + actionInfo.amount.toString(16),
+                amount,
                 payload,
                 remark: actionInfo.remark,
             }
@@ -220,6 +226,7 @@ export async function updateAccountDesc(actionInfo, gasInfo, payloadInfo, privat
 **/
 export async function updateAccountAuthor(actionInfo, gasInfo, payloadInfo, privateKey) {
     const payload = '0x' + encode([payloadInfo.threshold, payloadInfo.updateAuthorThreshold, [...payloadInfo.authorUpdateList]]).toString('hex');
+    const amount = (actionInfo.amount.toNumber() == 0) ? 0 : '0x' + actionInfo.amount.toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -231,7 +238,7 @@ export async function updateAccountAuthor(actionInfo, gasInfo, payloadInfo, priv
                 gasLimit: gasInfo.gasLimit,
                 toAccountName: oex.chainConfig.accountName,
                 assetId: actionInfo.assetId,
-                amount: '0x' + actionInfo.amount.toString(16),
+                amount,
                 payload,
                 remark: actionInfo.remark,
             }
@@ -322,6 +329,7 @@ export async function increaseAsset(actionInfo, gasInfo, payloadInfo, privateKey
 **/
 export async function destoryAsset(actionInfo, gasInfo, payloadInfo, privateKey) {
     const payload = utils.isEmptyObj(payloadInfo.desc) ? '' : '0x' + encode([payloadInfo.desc]).toString('hex');
+    const amount = (actionInfo.amount.toNumber() == 0) ? 0 : '0x' + actionInfo.amount.toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -333,7 +341,7 @@ export async function destoryAsset(actionInfo, gasInfo, payloadInfo, privateKey)
                 gasLimit: gasInfo.gasLimit,
                 toAccountName: oex.chainConfig.assetName,
                 assetId: actionInfo.assetId,
-                amount: '0x' + actionInfo.amount.toString(16),
+                amount,
                 payload,
                 remark: actionInfo.remark,
             }
@@ -417,6 +425,7 @@ export async function updateAssetFounder(actionInfo, gasInfo, payloadInfo, priva
 **/
 export async function transfer(actionInfo, gasInfo, privateKey) {
     const payload = '';
+    const amount = (actionInfo.amount.toNumber() == 0) ? 0 : '0x' + actionInfo.amount.toString(16);
     const txInfo = {
         gasAssetId: oex.chainConfig.sysTokenID,
         gasPrice: gasInfo.gasPrice,
@@ -428,7 +437,7 @@ export async function transfer(actionInfo, gasInfo, privateKey) {
                 gasLimit: gasInfo.gasLimit,
                 toAccountName: actionInfo.toAccountName,
                 assetId: actionInfo.assetId,
-                amount: '0x' + actionInfo.amount.toString(16),
+                amount,
                 payload,
                 remark: actionInfo.remark,
             }
